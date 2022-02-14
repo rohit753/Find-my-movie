@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Imdb</title>
+    <style>
+      #welcome {
+        margin: auto;
+        margin-top: 30px;
+      }
+      #mainDiv {
+        border: blueviolet solid 1px;
+        display: flex;
+        gap: 60px;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding-top: 50px;
+      }
+      #moDiv {
+        display: flex;
+        flex-direction: column;
+        border: rgb(0, 0, 0) solid 1px;
+        /* box-shadow: rgba(69, 152, 53, 0.35) 0px 5px 15px; */
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+          rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+          rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="welcome">Omdb All about entertainment</h1>
+    <div class="searchin">
+      <input id="inp" placeholder="Movie title" type="text" />
+      <input id="year" placeholder="Year" type="text" />
+      <input id="plot" placeholder="plot" type="text" />
+      <button onclick="getdata()">SEARCH</button>
+    </div>
+    <div id="mainDiv"></div>
+  </body>
+</html>
+<script>
+  let mainDiv = document.getElementById("mainDiv");
+  let search = document.getElementById("inp").value;
+  let year = document.getElementById("year").value;
+  let plot = document.getElementById("plot").value;
+  let data;
+  let arr;
+
+  //--API--https://www.omdbapi.com/?s=spider&apikey=50fdedfc
+  //--rating -key=...imdbRating
+  //   console.log(
+  //     `https://www.omdbapi.com/?s=${search}&y=${year}&plot=${plot}&apikey=50fdedfc`
+  //   );
+
+  function getdata() {
+    //mainDiv = document.getElementById("mainDiv");
+    search = document.getElementById("inp").value;
+    year = document.getElementById("year").value;
+    plot = document.getElementById("plot").value;
+
+    // console.log(
+    //   `https://www.omdbapi.com/?s=${search}&y=${year}&plot=${plot}&apikey=50fdedfc`
+    // );
+
+    fetch(
+      `https://www.omdbapi.com/?s=${search}&y=${year}&plot=${plot}&apikey=50fdedfc`
+    )
+      .then(function (res) {
+        return res.json();
+        console.log("1st then", res);
+        //return res;
+      })
+      .then(function (res) {
+        data = res;
+        //console.log(data);
+        arr = data.Search;
+        // for (var k in data) {
+        //   if (k == "Search") arr = data[k];
+        // }
+        //console.log(arr); data
+        displaymovie(arr);
+      })
+      .catch(function (err) {
+        alert("404 Movie not found ");
+      });
+
+    function displaymovie(arr) {
+      mainDiv.innerHTML = "";
+      arr.map(function (obj, index) {
+        //console.log(obj, index);
+        let id = obj.imdbID;
+        let imdbr;
+        let rating = document.createElement("p");
+        console.log(id);
+        console.log(`http://www.omdbapi.com/?i=${id}&apikey=50fdedfc`);
+        fetch(`http://www.omdbapi.com/?i=${id}&apikey=50fdedfc`)
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (res) {
+            imdbr = res.imdbRating;
+            console.log(imdbr);
+            rating.textContent = imdbr;
+            if (imdbr > 8.5) {
+              rec.textContent = "RECOMMENDED";
+              rec.style.color = "white";
+              rec.style.backgroundColor = "green";
+            }
+          });
+
+        let moDiv = document.createElement("div");
+        moDiv.setAttribute("id", "moDiv");
+        let title = document.createElement("p");
+        title.textContent = obj.Title;
+        let yr = document.createElement("p");
+        yr.textContent = obj.Year;
+        console.log(yr);
+
+        // rating.textContent = imdbr;
+        // console.log(rating);
+        let rec = document.createElement("p");
+        let pos = document.createElement("img");
+        pos.setAttribute("src", obj.Poster);
+
+        moDiv.append(pos, title, yr, rating, rec);
+        mainDiv.append(moDiv);
+      });
+    }
+  }
+</script>
