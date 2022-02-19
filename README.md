@@ -1,5 +1,5 @@
 # Find-my-movie
-Search for movies and other details
+Search for movies and other details<br/>
 Github pages link -https://rohit753.github.io/Find-my-movie/ 
 
 
