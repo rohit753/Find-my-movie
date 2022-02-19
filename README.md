@@ -14,3 +14,4 @@ Github pages link -https://rohit753.github.io/Find-my-movie/
 3. This app was made to practice fetch api concept.
 
 <br/>
+Tech - Stack - Js,HTML,CSS
