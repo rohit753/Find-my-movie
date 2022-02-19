@@ -10,6 +10,7 @@ Github pages link -https://rohit753.github.io/Find-my-movie/
 
 <br/>
 1. You this app you can sear for any movie you will get its rating and thumbnails.
-2. This app was made to practice fetch api concept.
+ <br/>
+3. This app was made to practice fetch api concept.
 
 <br/>
